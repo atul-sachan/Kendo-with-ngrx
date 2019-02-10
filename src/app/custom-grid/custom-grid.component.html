@@ -1,15 +1,4 @@
-<!--
-
-
-
-
-
-
-  [selectable]="{ mode: 'single' }"
-  [kendoGridSelectBy]="'Id'"
-  [selectedKeys]="mySelection"
-  (selectedKeysChange)="onSelectedKeysChange($event)"
-  (selectionChange)="onSelectedChange($event)" -->
+<button (click)="manualselect()">Select row</button>
 
 <kendo-grid #grid
   [loading]="loading$ | async"
@@ -27,6 +16,12 @@
   [filter]="gridState.filter"
   filterable="menu"
   (filterChange)="filterChange($event)"
+
+  [selectable]="{ mode: 'single' }"
+  [kendoGridSelectBy]="'Id'"
+  [selectedKeys]="gridSelection"
+  (selectedKeysChange)="onSelectedKeysChange($event)"
+  (selectionChange)="onSelectedChange($event)"
 
   >
   <kendo-grid-column field="Id" [width]="80" title="ID" filter="numeric">

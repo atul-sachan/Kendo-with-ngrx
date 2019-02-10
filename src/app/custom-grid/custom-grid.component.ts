@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromCustomGridState from './store/custom-grid.state';
 import * as fromCustomGridSelector from './store/selectors/custom-grid.selector';
 import * as customGridActions from './store/actions/custom-grid.action';
-import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, GridComponent, PageChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
 import { GridState } from './models/grid-state.model';
 import { SortDescriptor, CompositeFilterDescriptor, distinct } from '@progress/kendo-data-query';
 
@@ -16,6 +16,7 @@ import { SortDescriptor, CompositeFilterDescriptor, distinct } from '@progress/k
 })
 export class CustomGridComponent implements OnInit {
   @ViewChild('grid') private grid: GridComponent;
+  public gridSelection: number[] = [];
 
   public gridState: GridState = {
     skip: 0,
@@ -68,12 +69,30 @@ export class CustomGridComponent implements OnInit {
 
   public filterChange(state: CompositeFilterDescriptor): void {
     this.gridState.filter = state;
-    console.log(state);
     this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
   }
 
   public distinctPrimitive(fieldName: string): any {
     return distinct([{ Age: 37 }, { Age: 27 }, { Age: 40 }, { Age: 23 }], fieldName).map(item => item[fieldName]);
+  }
+
+  public onSelectedKeysChange(e) {
+    console.log(e);
+   }
+
+  public onSelectedChange(state: SelectionEvent) {
+    console.log(state);
+    localStorage.setItem('id', state.selectedRows[0].dataItem.Id);
+  }
+
+  public manualselect() {
+    this.gridSelection = [];
+    this.gridSelection.push(351);
+    this.gridState.skip = 300;
+    this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
+    setTimeout(() => {
+      document.querySelector('.k-state-selected').scrollIntoView();
+    }, 3000);
   }
 
 }

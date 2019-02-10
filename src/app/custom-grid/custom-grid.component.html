@@ -1,0 +1,46 @@
+<!--
+
+
+
+  (pageChange)="pageChange($event)"
+
+
+  [selectable]="{ mode: 'single' }"
+  [kendoGridSelectBy]="'Id'"
+  [selectedKeys]="mySelection"
+  (selectedKeysChange)="onSelectedKeysChange($event)"
+  (selectionChange)="onSelectedChange($event)" -->
+
+<kendo-grid #grid
+  [loading]="loading$ | async"
+  [data]="customGrids$ | async"
+  [skip]="gridState.skip"
+  [pageSize]="gridState.take"
+  [rowHeight]="40"
+  [height]="450"
+  [scrollable]="'virtual'"
+  [sortable]="{ mode: 'single'}"
+  [sort]="gridState.sort"
+  (sortChange)="sortChange($event)"
+  >
+  <kendo-grid-column field="Id" [width]="80" title="ID"></kendo-grid-column>
+  <kendo-grid-column field="IsActive" [width]="80" title="IsActive"></kendo-grid-column>
+  <kendo-grid-column field="Balance" [width]="80" title="Balance"></kendo-grid-column>
+  <kendo-grid-column field="Picture" [width]="80" title="Picture"></kendo-grid-column>
+  <kendo-grid-column field="Age" [width]="80" title="Age"></kendo-grid-column>
+  <kendo-grid-column field="EyeColor" [width]="80" title="EyeColor"></kendo-grid-column>
+  <kendo-grid-column field="FullName" [width]="80" title="FullName"></kendo-grid-column>
+  <kendo-grid-column field="Company" [width]="80" title="Company"></kendo-grid-column>
+</kendo-grid>
+<pre>
+  {{id$ | async | json}}
+</pre>
+<pre>
+  {{total$ | async | json}}
+</pre>
+<pre>
+  {{index$ | async | json}}
+</pre>
+<pre>
+  {{customGrids$ | async | json}}
+</pre>

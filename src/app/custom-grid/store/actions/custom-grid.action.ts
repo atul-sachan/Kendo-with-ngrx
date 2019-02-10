@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { CustomGrid } from '../../models/custom-grid.model';
 import { CustomGridViewModel } from '../../models/custom-grid.viewmodel';
+import { GridState } from '../../models/grid-state.model';
 
 export enum CustomGridActionTypes {
   LOAD_CUSTOM_GRIDS = '[Custom Grid] Load Custom Grid',
@@ -10,6 +11,7 @@ export enum CustomGridActionTypes {
 
 export class LoadCustomGrids implements Action {
   readonly type = CustomGridActionTypes.LOAD_CUSTOM_GRIDS;
+  constructor(public payload: GridState) { }
 }
 
 export class LoadCustomGridsSuccess implements Action {

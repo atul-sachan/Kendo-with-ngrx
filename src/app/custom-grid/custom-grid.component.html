@@ -2,7 +2,7 @@
 
 
 
-  (pageChange)="pageChange($event)"
+
 
 
   [selectable]="{ mode: 'single' }"
@@ -22,13 +22,32 @@
   [sortable]="{ mode: 'single'}"
   [sort]="gridState.sort"
   (sortChange)="sortChange($event)"
+  (pageChange)="pageChange($event)"
+
+  [filter]="gridState.filter"
+  filterable="menu"
+  (filterChange)="filterChange($event)"
+
   >
-  <kendo-grid-column field="Id" [width]="80" title="ID"></kendo-grid-column>
+  <kendo-grid-column field="Id" [width]="80" title="ID">
+    <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" >
+      <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">
+          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+      </kendo-grid-string-filter-menu>
+    </ng-template>
+  </kendo-grid-column>
   <kendo-grid-column field="IsActive" [width]="80" title="IsActive"></kendo-grid-column>
   <kendo-grid-column field="Balance" [width]="80" title="Balance"></kendo-grid-column>
   <kendo-grid-column field="Picture" [width]="80" title="Picture"></kendo-grid-column>
   <kendo-grid-column field="Age" [width]="80" title="Age"></kendo-grid-column>
-  <kendo-grid-column field="EyeColor" [width]="80" title="EyeColor"></kendo-grid-column>
+  <kendo-grid-column field="EyeColor" [width]="80" title="EyeColor">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" >
+          <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">
+
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+  </kendo-grid-column>
   <kendo-grid-column field="FullName" [width]="80" title="FullName"></kendo-grid-column>
   <kendo-grid-column field="Company" [width]="80" title="Company"></kendo-grid-column>
 </kendo-grid>

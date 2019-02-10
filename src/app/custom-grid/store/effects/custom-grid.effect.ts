@@ -34,7 +34,7 @@ export class CustomGridEffect {
   loadCustomers$: Observable<Action> = this.actions$.pipe(
     ofType<customGridActions.LoadCustomGrids>(customGridActions.CustomGridActionTypes.LOAD_CUSTOM_GRIDS),
     switchMap((action: customGridActions.LoadCustomGrids) =>
-      this.customGridService.getCustomGrids().pipe(
+      this.customGridService.getCustomGrids(action.payload).pipe(
         map(
           (customGridViewModel: CustomGridViewModel) => {
             return new customGridActions.LoadCustomGridsSuccess(customGridViewModel);

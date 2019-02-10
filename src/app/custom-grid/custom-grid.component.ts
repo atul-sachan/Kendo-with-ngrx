@@ -5,9 +5,9 @@ import { Store, select } from '@ngrx/store';
 import * as fromCustomGridState from './store/custom-grid.state';
 import * as fromCustomGridSelector from './store/selectors/custom-grid.selector';
 import * as customGridActions from './store/actions/custom-grid.action';
-import { GridDataResult, GridComponent } from '@progress/kendo-angular-grid';
+import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridState } from './models/grid-state.model';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { SortDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'app-custom-grid',
@@ -22,7 +22,8 @@ export class CustomGridComponent implements OnInit {
     take: 100,
     sort: [
       { field: 'Id', dir: 'asc' }
-    ]
+    ],
+    filter: null
   };
 
   customGrids$: Observable<GridDataResult>;
@@ -34,7 +35,7 @@ export class CustomGridComponent implements OnInit {
   constructor(private store: Store<fromCustomGridState.AppState>) { }
 
   ngOnInit() {
-    this.store.dispatch(new customGridActions.LoadCustomGrids());
+    this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
     this.customGrids$ = this.store.pipe(select(fromCustomGridSelector.getCustomGrids));
     this.loading$ = this.store.pipe(select(fromCustomGridSelector.getCustomGridsLoading));
     this.error$ = this.store.pipe(select(fromCustomGridSelector.getError));
@@ -51,7 +52,19 @@ export class CustomGridComponent implements OnInit {
       return e;
     });
     this.gridState.sort = sorts;
-    this.store.dispatch(new customGridActions.LoadCustomGrids());
+    this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
+  }
+
+  public pageChange(state: PageChangeEvent): void {
+    this.gridState.take = state.take;
+    this.gridState.skip = state.skip;
+    this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
+  }
+
+  public filterChange(state: CompositeFilterDescriptor): void {
+    this.gridState.filter = state;
+    console.log(state);
+    this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
   }
 
 }

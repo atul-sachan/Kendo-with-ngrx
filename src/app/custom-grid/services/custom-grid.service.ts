@@ -6,6 +6,7 @@ import { CustomGrid } from '../models/custom-grid.model';
 import { toODataString } from '@progress/kendo-data-query';
 import { CustomGridViewModel } from '../models/custom-grid.viewmodel';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { GridState } from '../models/grid-state.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class CustomGridService {
   //   );
   // }
 
-  getCustomGrids(): Observable<CustomGridViewModel> {
-    const queryStr = `$count=true`;
+  getCustomGrids(gridState: GridState): Observable<CustomGridViewModel> {
+    const queryStr = `${toODataString(gridState)}&$count=true`;
     const header = new HttpHeaders({ 'id': '151' });
     return this.http.get<any>(`${this.BASE_URL}?${queryStr}`, { headers: header, observe: 'response' }).pipe(
       map(response => {

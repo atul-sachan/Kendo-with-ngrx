@@ -29,18 +29,22 @@
   (filterChange)="filterChange($event)"
 
   >
-  <kendo-grid-column field="Id" [width]="80" title="ID">
-    <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" >
-      <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">
-          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
-          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+  <kendo-grid-column field="Id" [width]="80" title="ID" filter="numeric">
+    <ng-template kendoGridFilterMenuTemplate let-filter="filter" let-column="column" let-filterService="filterService">
+      <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter" [filterService]="filterService">
+          <!-- <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-eq-operator></kendo-filter-eq-operator> -->
       </kendo-grid-string-filter-menu>
     </ng-template>
   </kendo-grid-column>
   <kendo-grid-column field="IsActive" [width]="80" title="IsActive"></kendo-grid-column>
   <kendo-grid-column field="Balance" [width]="80" title="Balance"></kendo-grid-column>
   <kendo-grid-column field="Picture" [width]="80" title="Picture"></kendo-grid-column>
-  <kendo-grid-column field="Age" [width]="80" title="Age"></kendo-grid-column>
+  <kendo-grid-column field="Age" [width]="80" title="Age" filter="numeric">
+      <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+        <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter" [data]="distinctPrimitive(column.field)"></multicheck-filter>
+  </ng-template>
+  </kendo-grid-column>
   <kendo-grid-column field="EyeColor" [width]="80" title="EyeColor">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" >
           <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">

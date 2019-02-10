@@ -7,7 +7,7 @@ import * as fromCustomGridSelector from './store/selectors/custom-grid.selector'
 import * as customGridActions from './store/actions/custom-grid.action';
 import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridState } from './models/grid-state.model';
-import { SortDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { SortDescriptor, CompositeFilterDescriptor, distinct } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'app-custom-grid',
@@ -23,8 +23,13 @@ export class CustomGridComponent implements OnInit {
     sort: [
       { field: 'Id', dir: 'asc' }
     ],
-    filter: null
+    filter: {
+      logic: 'and',
+      filters: []
+    }
   };
+
+
 
   customGrids$: Observable<GridDataResult>;
   loading$: Observable<boolean>;
@@ -65,6 +70,10 @@ export class CustomGridComponent implements OnInit {
     this.gridState.filter = state;
     console.log(state);
     this.store.dispatch(new customGridActions.LoadCustomGrids(this.gridState));
+  }
+
+  public distinctPrimitive(fieldName: string): any {
+    return distinct([{ Age: 37 }, { Age: 27 }, { Age: 40 }, { Age: 23 }], fieldName).map(item => item[fieldName]);
   }
 
 }

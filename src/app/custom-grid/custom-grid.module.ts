@@ -10,10 +10,12 @@ import { customGridReducer } from './store/reducers/custom-grid.reducer';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MultiCheckFilterComponent } from './multi-check-fillter.component';
 
 @NgModule({
   declarations: [
-    CustomGridComponent
+    CustomGridComponent,
+    MultiCheckFilterComponent
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,12 @@ export function customGridReducer(state: CustomGridState = initialState, action:
         error: action.payload
       };
     }
+    case customGridActions.CustomGridActionTypes.LOAD_CUSTOM_GRIDS_DETAILS: {
+      return {
+        ...state,
+        id: action.payload
+      };
+    }
     default: {
       return state;
     }

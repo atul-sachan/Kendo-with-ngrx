@@ -15,26 +15,26 @@ export class CustomGridService {
   private BASE_URL = 'http://localhost:5000/odata/Kendo';
   constructor(private http: HttpClient) { }
 
-  // getCustomGrids(): Observable<CustomGrid[]> {
-  //   const queryStr = `$count=true`;
-  //   const header = new HttpHeaders({ 'id': '151' });
-  //   return this.http.get<any>(`${this.BASE_URL}?${queryStr}`, { headers: header, observe: 'response' }).pipe(
-  //     map(response => {
-  //       const gridData = response.body['value'];
-  //       return <CustomGrid[]>gridData;
-  //     })
-  //   );
-  // }
+  getCustomValue(): Observable<any> {
+    return this.http.get<any>(`http://localhost:5000/api/value`).pipe(
+      map(response => {
+        const gridData = response;
+        console.log(gridData);
+        return <any>gridData;
+      })
+    );
+  }
 
-  getCustomGrids(gridState: GridState): Observable<CustomGridViewModel> {
+  getCustomGrids(gridState: GridState, id: number): Observable<CustomGridViewModel> {
     const queryStr = `${toODataString(gridState)}&$count=true`;
-    const header = new HttpHeaders({ 'id': '151' });
+    const header = new HttpHeaders({ 'id': id.toString() });
     return this.http.get<any>(`${this.BASE_URL}?${queryStr}`, { headers: header, observe: 'response' }).pipe(
       map(response => {
         const gridData = response.body['value'];
+
         const total = parseInt(response.body['@odata.count'], 10);
         const index = parseInt(response.headers.get('X-Total-Count'), 10);
-        const id = 151;
+        // const id = 151;
         return (<CustomGridViewModel>{
           gridResult: (<GridDataResult>{
             data: gridData,

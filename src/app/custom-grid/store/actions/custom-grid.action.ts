@@ -6,12 +6,13 @@ import { GridState } from '../../models/grid-state.model';
 export enum CustomGridActionTypes {
   LOAD_CUSTOM_GRIDS = '[Custom Grid] Load Custom Grid',
   LOAD_CUSTOM_GRIDS_SUCCESS = '[Custom Grid] Load Custom Grid Success',
-  LOAD_CUSTOM_GRIDS_FAIL = '[Custom Grid] Load Custom Grid Fail'
+  LOAD_CUSTOM_GRIDS_FAIL = '[Custom Grid] Load Custom Grid Fail',
+  LOAD_CUSTOM_GRIDS_DETAILS = '[Custom Grid] Load Custom Grid Details'
 }
 
 export class LoadCustomGrids implements Action {
   readonly type = CustomGridActionTypes.LOAD_CUSTOM_GRIDS;
-  constructor(public payload: GridState) { }
+  constructor(public payload: { gridState: GridState, id: number }) { }
 }
 
 export class LoadCustomGridsSuccess implements Action {
@@ -26,7 +27,14 @@ export class LoadCustomGridsFail implements Action {
   constructor(public payload: string) { }
 }
 
+export class LoadCustomGridsDetails implements Action {
+  readonly type = CustomGridActionTypes.LOAD_CUSTOM_GRIDS_DETAILS;
+
+  constructor(public payload: number) { }
+}
+
 export type Action =
-| LoadCustomGrids
-| LoadCustomGridsSuccess
-| LoadCustomGridsFail;
+  | LoadCustomGrids
+  | LoadCustomGridsSuccess
+  | LoadCustomGridsFail
+  | LoadCustomGridsDetails;

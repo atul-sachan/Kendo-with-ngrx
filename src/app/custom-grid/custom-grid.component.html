@@ -1,33 +1,16 @@
+<a [routerLink]="['/welcome']" routerLinkActive="router-link-active">Go to Welcome</a>
 <button (click)="manualselect()">Select row</button>
 
-<kendo-grid #grid
-  [loading]="loading$ | async"
-  [data]="customGrids$ | async"
-  [skip]="gridState.skip"
-  [pageSize]="gridState.take"
-  [rowHeight]="40"
-  [height]="450"
-  [scrollable]="'virtual'"
-  [sortable]="{ mode: 'single'}"
-  [sort]="gridState.sort"
-  (sortChange)="sortChange($event)"
-  (pageChange)="pageChange($event)"
-
-  [filter]="gridState.filter"
-  filterable="menu"
-  (filterChange)="filterChange($event)"
-
-  [selectable]="{ mode: 'single' }"
-  [kendoGridSelectBy]="'Id'"
-  [selectedKeys]="gridSelection"
-  (selectedKeysChange)="onSelectedKeysChange($event)"
-  (selectionChange)="onSelectedChange($event)"
-
-  >
+<kendo-grid #grid [loading]="loading$ | async" [data]="customGrids$ | async" [skip]="gridState.skip" [pageSize]="gridState.take"
+  [rowHeight]="40" [style.height]="'450px'" [scrollable]="'virtual'" [sortable]="{ mode: 'single'}" [sort]="gridState.sort"
+  (sortChange)="sortChange($event)" (pageChange)="pageChange($event)" [filter]="gridState.filter" filterable="menu"
+  (filterChange)="filterChange($event)" [selectable]="{ mode: 'single' }" [kendoGridSelectBy]="'Id'" [selectedKeys]="gridSelection"
+  (selectedKeysChange)="onSelectedKeysChange($event)" (selectionChange)="onSelectedChange($event)">
+  <!-- [persistSelection]="'true'" -->
   <kendo-grid-column field="Id" [width]="80" title="ID" filter="numeric">
     <ng-template kendoGridFilterMenuTemplate let-filter="filter" let-column="column" let-filterService="filterService">
       <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter" [filterService]="filterService">
-          <!-- <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+        <!-- <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
           <kendo-filter-eq-operator></kendo-filter-eq-operator> -->
       </kendo-grid-string-filter-menu>
     </ng-template>
@@ -36,29 +19,53 @@
   <kendo-grid-column field="Balance" [width]="80" title="Balance"></kendo-grid-column>
   <kendo-grid-column field="Picture" [width]="80" title="Picture"></kendo-grid-column>
   <kendo-grid-column field="Age" [width]="80" title="Age" filter="numeric">
-      <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
-        <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter" [data]="distinctPrimitive(column.field)"></multicheck-filter>
-  </ng-template>
+    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+      <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter"
+        [data]="distinctPrimitive(column.field)"></multicheck-filter>
+    </ng-template>
   </kendo-grid-column>
   <kendo-grid-column field="EyeColor" [width]="80" title="EyeColor">
-      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" >
-          <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">
+    <ng-template kendoGridFilterMenuTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-menu [extra]="false" [column]="column" [filter]="filter">
 
-          </kendo-grid-string-filter-menu>
-        </ng-template>
+      </kendo-grid-string-filter-menu>
+    </ng-template>
   </kendo-grid-column>
   <kendo-grid-column field="FullName" [width]="80" title="FullName"></kendo-grid-column>
   <kendo-grid-column field="Company" [width]="80" title="Company"></kendo-grid-column>
 </kendo-grid>
-<pre>
-  {{id$ | async | json}}
-</pre>
-<pre>
-  {{total$ | async | json}}
-</pre>
-<pre>
-  {{index$ | async | json}}
-</pre>
-<pre>
-  {{customGrids$ | async | json}}
-</pre>
+<div class="row">
+  <div class="col-lg-12">
+      <div style="width:48%; display:inline">
+          <h2>Observalbe</h2>
+          <pre>
+            {{id$ | async | json}}
+          </pre>
+          <pre>
+            {{total$ | async | json}}
+          </pre>
+          <pre>
+            {{index$ | async | json}}
+          </pre>
+          <!-- <pre>
+            {{customGrids$ | async | json}}
+          </pre> -->
+        </div>
+        <div style="width:48%; display:inline">
+          <h2>Static</h2>
+          <pre>
+                {{customerId}}
+              </pre>
+          <pre>
+                {{holdData?.total}}
+              </pre>
+          <pre>
+                  {{page}}--{{staticindex}}
+                </pre>
+          <!-- <pre>
+                    {{holdData?.data}}
+                  </pre> -->
+        </div>
+  </div>
+
+</div>
